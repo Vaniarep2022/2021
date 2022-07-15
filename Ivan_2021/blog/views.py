@@ -1,9 +1,22 @@
 from django.shortcuts import render
+from .models import Post, Comment
 
-def blog_detail(request):
-    return render(request, 'blog_detail.html')
+
 
 def blog_index(request):
-    user_text=request.GET['username']
-    blog_index=user_text[::-1]
-    return render(request,'blog_index.html', {'word':blog_index})
+    posts = Post.objects.all().order_by('-created_on')
+    context = {
+        "posts": posts,
+    }
+    return render(request, "blog_index.html", context)
+
+
+def blog_detail(request, pk):
+    post = Post.objects.get(pk=pk)
+    comments = Comment.objects.filter(post=post)
+    context = {
+        "post": post,
+        "comments":comments,
+    }
+
+    return render(request, "blog_detail.html", context)
