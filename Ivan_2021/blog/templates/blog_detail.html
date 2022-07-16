@@ -1,6 +1,16 @@
-<h1>created_on</h1>
-<form action="{%url 'reversed'%}">
-    <textarea cols="100" rows="20" name="username"></textarea>
-    <br><br>
-    <input type="submit" value="Reverse!">
-</form>
+{% extends "base.html" %}
+{% block page_content %}
+<div class="col-md-8 offset-md-2">
+  <h1>{{ post.title }}</h1>
+  <small>
+      {{ post.created_on.date }}
+      Категории:
+      {% for category in post.categories.all %}
+      <a href="">
+          {{ category.name }}
+      </a>
+      {% endfor %}
+  </small>
+  <p>{{ post.body | linebreaks }}</p>
+</div>
+{% endblock %}
